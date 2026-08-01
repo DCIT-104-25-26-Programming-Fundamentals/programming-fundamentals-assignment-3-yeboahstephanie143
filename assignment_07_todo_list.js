@@ -81,4 +81,85 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require('readline-sync');
+
+// All the tasks are kept in this array.
+let tasks = [];
+
+function showMenu() {
+  console.log('');
+  console.log('============================');
+  console.log('     TO-DO LIST MENU');
+  console.log('============================');
+  console.log('1. Add task');
+  console.log('2. View tasks');
+  console.log('3. Delete task');
+  console.log('4. Quit');
+}
+
+// FEATURE 1 - add a new task to the array.
+function addTask() {
+  const task = readlineSync.question('Enter task: ');
+  tasks.push(task);
+  console.log('Task added: "' + task + '"');
+}
+
+// FEATURE 2 - show every task, numbered from 1.
+function viewTasks() {
+  if (tasks.length === 0) {
+    console.log('Your to-do list is empty. Add a task to get started!');
+    return;
+  }
+
+  console.log('Your Tasks:');
+
+  for (let i = 0; i < tasks.length; i++) {
+    console.log((i + 1) + '. ' + tasks[i]);
+  }
+}
+
+// FEATURE 3 - remove a task chosen by its number.
+function deleteTask() {
+  if (tasks.length === 0) {
+    console.log('There are no tasks to delete.');
+    return;
+  }
+
+  viewTasks();
+  const taskNumber = readlineSync.questionInt('Enter task number to delete: ');
+
+  // The list is numbered from 1, so anything outside 1..length is invalid.
+  if (taskNumber < 1 || taskNumber > tasks.length) {
+    console.log('Error: There is no task number ' + taskNumber + '.');
+    return;
+  }
+
+  const removed = tasks.splice(taskNumber - 1, 1);
+  console.log('Task "' + removed[0] + '" has been removed.');
+}
+
+function main() {
+  let running = true;
+
+  while (running) {
+    showMenu();
+    const choice = readlineSync.questionInt('Enter your choice (1-4): ');
+
+    if (choice === 1) {
+      addTask();
+    } else if (choice === 2) {
+      viewTasks();
+    } else if (choice === 3) {
+      deleteTask();
+    } else if (choice === 4) {
+      console.log('Goodbye!');
+      running = false;
+    } else {
+      console.log('Error: Invalid choice. Please enter a number from 1 to 4.');
+    }
+  }
+}
+
+main();
+
 

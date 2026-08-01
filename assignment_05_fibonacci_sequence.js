@@ -54,4 +54,66 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require('readline-sync');
+
+// PART A - builds and prints the first n Fibonacci numbers using a loop.
+function printFibonacci(n) {
+  const sequence = [];
+  let previous = 0;
+  let current = 1;
+
+  for (let i = 0; i < n; i++) {
+    sequence.push(previous);
+
+    // Move both numbers one step forward in the sequence.
+    const next = previous + current;
+    previous = current;
+    current = next;
+  }
+
+  console.log('Fibonacci sequence: ' + sequence.join(' '));
+}
+
+// PART B - generates terms until they reach the number, then compares.
+function isFibonacci(number) {
+  if (number < 0) {
+    return false;
+  }
+
+  let previous = 0;
+  let current = 1;
+
+  while (previous < number) {
+    const next = previous + current;
+    previous = current;
+    current = next;
+  }
+
+  return previous === number;
+}
+
+function main() {
+  // PART A
+  const terms = readlineSync.questionInt('How many terms? ');
+
+  if (terms <= 0) {
+    console.log('Error: The number of terms must be a positive number.');
+    return;
+  }
+
+  printFibonacci(terms);
+
+  // PART B
+  console.log('');
+  const number = readlineSync.questionInt('Enter a number to check: ');
+
+  if (isFibonacci(number)) {
+    console.log(number + ' is a Fibonacci number.');
+  } else {
+    console.log(number + ' is NOT a Fibonacci number.');
+  }
+}
+
+main();
+
 
